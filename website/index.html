@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Promo Code Queue</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body
+    class="bg-gray-50 min-h-screen flex flex-col items-center justify-center"
+  >
+    <div class="max-w-md w-full bg-white rounded-xl shadow-lg p-8 mt-12">
+      <h1 class="text-2xl font-bold text-indigo-700 mb-4 text-center">
+        Promo Code Queue
+      </h1>
+      <div id="code-section" class="text-center">
+        <button
+          id="get-code"
+          class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-6 py-3 rounded transition mb-4"
+        >
+          Get My Promo Code
+        </button>
+        <div id="result" class="text-lg font-mono text-gray-800 mt-4"></div>
+      </div>
+      <p class="text-xs text-gray-400 mt-8 text-center">
+        Powered by
+        <a
+          href="https://promocodequeue.com"
+          class="underline hover:text-indigo-600"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Promo Code Queue</a
+        >
+        • 
+        <a
+          href="https://github.com/promocodequeue/promo-code-queue-hobby"
+          class="underline hover:text-indigo-600"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Open Source</a
+        >
+      </p>
+    </div>
+    <script>
+      // Replace with your deployed Cloudflare Worker endpoint
+      const WORKER_ENDPOINT = 'https://promo-code-queue-worker.dano-eight.workers.dev/get-code';
+      const resultDiv = document.getElementById('result');
+      const getCodeBtn = document.getElementById('get-code');
+
+      async function fetchPromoCode() {
+        resultDiv.textContent = 'Requesting code...';
+        getCodeBtn.style.display = 'none';
+        try {
+          const res = await fetch(WORKER_ENDPOINT, { method: 'POST' });
+          const data = await res.json();
+          if (res.ok && data.code) {
+            resultDiv.textContent = `${data.code}`;
+          } else {
+            resultDiv.textContent =
+              data.error || 'No codes left or error occurred.';
+          }
+        } catch (e) {
+          resultDiv.textContent = 'Network error. Please try again.';
+        }
+      }
+
+      getCodeBtn.addEventListener('click', fetchPromoCode);
+    </script>
+  </body>
+</html>

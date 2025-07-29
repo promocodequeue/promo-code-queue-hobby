@@ -1,0 +1,9 @@
+name = "promo-code-queue-worker"
+account_id = "<your-account-id>"
+workers_dev = true
+main = "worker.js"
+compatibility_date = "2025-07-29"
+
+[[kv_namespaces]]
+binding = "PROMO_CODES"
+id = "<your-kv-namespace-id>" 
