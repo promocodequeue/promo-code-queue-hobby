@@ -2,6 +2,8 @@
 
 A simple static web app for distributing promo codes, powered by a Cloudflare Worker and KV for true one-time code assignment.
 
+Hobby verison of https://promocodequeue.com
+
 ---
 
 ## Features
